@@ -17,6 +17,8 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
+import static com.vijay.testing.utils.GenerateEmail.generateUniqueEmail;
+
 public class RegisterTest extends CommonToAllTest {
     private static final Logger logger = LogManager.getLogger(RegisterTest.class);
 
@@ -40,17 +42,19 @@ public class RegisterTest extends CommonToAllTest {
 
         logger.info("Starting test: Register Account With Valid Credentials");
 
-       DriverManager.getDriver().get(PropertiesReader.readKey("url"));
-       logger.info("Navigated to URL");
-
-       LandingPage landingPage = new LandingPage();
-       landingPage.goToAccountMenu();
-       RegisterPage registerPage = landingPage.clickRegisterMenu();
+//       DriverManager.getDriver().get(PropertiesReader.readKey("url"));
+//       logger.info("Navigated to URL");
+//
+//       LandingPage landingPage = new LandingPage();
+//       landingPage.goToAccountMenu();
+//       RegisterPage registerPage = landingPage.clickRegisterMenu();
+        logger.info("Navigating to Register Page");
+        RegisterPage registerPage = navigateToRegisterPage();
        logger.info("Navigated to Register Page");
 
 
        // email should be unique so created below string and passed as parameter
-       String email = "vijay" + System.currentTimeMillis() + "@gmail.com";
+       String email = generateUniqueEmail();
 
        CreatedPage createdPage = registerPage.registerAccount(PropertiesReader.readKey("firstname"),
                PropertiesReader.readKey("lastname"),
@@ -65,17 +69,19 @@ public class RegisterTest extends CommonToAllTest {
 
     }
 
-    @Description("Test Case 2: Verification of fill form with invalid combinations")
+    @Description("Test Case 2: Verification of fill form without giving any mandatory properties")
     @Test(dataProvider = "formCombinations")
     public void testFormFillingInvalidCombinations(String firstName, String lastName, String email, String phone, String password, String[] expectedErrors){
         logger.info("Starting test: Register Account With InValid Credentials");
 
-        DriverManager.getDriver().get(PropertiesReader.readKey("url"));
-        logger.info("Navigated to URL");
+//        DriverManager.getDriver().get(PropertiesReader.readKey("url"));
+//        logger.info("Navigated to URL");
+//
+//        LandingPage landingPage = new LandingPage();
+//        landingPage.goToAccountMenu();
+//        RegisterPage registerPage = landingPage.clickRegisterMenu();
 
-        LandingPage landingPage = new LandingPage();
-        landingPage.goToAccountMenu();
-        RegisterPage registerPage = landingPage.clickRegisterMenu();
+        RegisterPage registerPage = navigateToRegisterPage();
         logger.info("Navigated to Register Page");
 
         registerPage.clickOnContinue();
@@ -94,6 +100,39 @@ public class RegisterTest extends CommonToAllTest {
         softAssert.assertAll();
 
 
+
+    }
+
+    @Description("Test Case 3: Check Registration Behavior for Mismatched Password Fields")
+    @Test
+    public void testRegistrationWithMismatchedPasswordFields(){
+
+        logger.info("Starting test: Register Account With Mismatched Password Fields");
+
+//        DriverManager.getDriver().get(PropertiesReader.readKey("url"));
+//        logger.info("Navigated to URL");
+//
+//        LandingPage landingPage = new LandingPage();
+//        landingPage.goToAccountMenu();
+//        RegisterPage registerPage = landingPage.clickRegisterMenu();
+        RegisterPage registerPage = navigateToRegisterPage();
+        logger.info("Navigated to Register Page");
+
+
+        // email should be unique so created below string and passed as parameter
+        String email = generateUniqueEmail();
+
+        CreatedPage createdPage = registerPage.registerAccount(PropertiesReader.readKey("firstname"),
+                PropertiesReader.readKey("lastname"),
+                email,
+                PropertiesReader.readKey("telephone"),
+                PropertiesReader.readKey("passwordForMismatch"),
+                PropertiesReader.readKey("confirm_passwordMismatch") );
+
+
+        String expectedText = "Password confirmation does not match password!";
+        String actualText = registerPage.passwordErrorText();
+        logger.info("Registration Not successful");
 
     }
 

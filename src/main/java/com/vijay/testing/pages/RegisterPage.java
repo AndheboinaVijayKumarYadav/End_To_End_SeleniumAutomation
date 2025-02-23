@@ -20,7 +20,7 @@ public class RegisterPage extends LandingPage {
     private By inputConfirmPasswordField = By.id("input-confirm");
     private By agreeCheckbox = By.name("agree");
     private By continueButton = By.xpath("//input[@value='Continue']");
-
+    private By passwordErrorField = By.xpath("//input[@id='input-confirm']/following-sibling::div");
 
 
     //Page Actions
@@ -64,5 +64,8 @@ public class RegisterPage extends LandingPage {
         clickElement(continueButton);
     }
 
+    public String passwordErrorText(){
+        return find(passwordErrorField).getText();
+    }
 
 }

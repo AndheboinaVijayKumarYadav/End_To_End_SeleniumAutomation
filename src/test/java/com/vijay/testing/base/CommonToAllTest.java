@@ -1,6 +1,9 @@
 package com.vijay.testing.base;
 
 import com.vijay.testing.driver.DriverManager;
+import com.vijay.testing.pages.LandingPage;
+import com.vijay.testing.pages.RegisterPage;
+import com.vijay.testing.utils.PropertiesReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterMethod;
@@ -31,5 +34,12 @@ public class CommonToAllTest {
         } catch (Exception e) {
             logger.error("Error closing WebDriver: " + e.getMessage(), e);
         }
+    }
+
+    protected RegisterPage navigateToRegisterPage() {
+        DriverManager.getDriver().get(PropertiesReader.readKey("url"));
+        LandingPage landingPage = new LandingPage();
+        landingPage.goToAccountMenu();
+        return landingPage.clickRegisterMenu();
     }
 }
