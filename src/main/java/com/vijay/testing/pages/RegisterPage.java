@@ -21,7 +21,7 @@ public class RegisterPage extends LandingPage {
     private By agreeCheckbox = By.name("agree");
     private By continueButton = By.xpath("//input[@value='Continue']");
     private By passwordErrorField = By.xpath("//input[@id='input-confirm']/following-sibling::div");
-
+    private By warningField = By.xpath("//div[@class ='alert alert-danger alert-dismissible']");
 
     //Page Actions
     // below method returns the CreatedPage all the form details given are valid ones
@@ -68,4 +68,15 @@ public class RegisterPage extends LandingPage {
         return find(passwordErrorField).getText();
     }
 
+    public String warningFieldText(){
+        return find(warningField).getText();
+    }
+
+    public void clickOnAgree(){
+        clickElement(agreeCheckbox);
+    }
+
+    public void takeScreenshot(){
+
+    }
 }

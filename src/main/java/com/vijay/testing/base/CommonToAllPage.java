@@ -1,6 +1,7 @@
 package com.vijay.testing.base;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -86,14 +87,14 @@ public class CommonToAllPage {
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-//    // Take screenshot
-//    public void takeScreenshot(String screenshotName) {
-//        File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-//        try {
-//            FileUtils.copyFile(srcFile, new File("screenshots/" + screenshotName + ".png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    // Take screenshot
+    public void takeScreenshot(String screenshotName) {
+        File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+        try {
+            FileHandler.copy(srcFile, new File(System.getProperty("user.dir") + "/screenshots/" + screenshotName + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

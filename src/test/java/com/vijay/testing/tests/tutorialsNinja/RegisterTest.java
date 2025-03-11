@@ -69,7 +69,7 @@ public class RegisterTest extends CommonToAllTest {
 
     }
 
-    @Description("Test Case 2: Verification of fill form without giving any mandatory properties")
+    @Description("Test Case 2: Verification of fill form without mandatory properties")
     @Test(dataProvider = "formCombinations")
     public void testFormFillingInvalidCombinations(String firstName, String lastName, String email, String phone, String password, String[] expectedErrors){
         logger.info("Starting test: Register Account With InValid Credentials");
@@ -134,6 +134,34 @@ public class RegisterTest extends CommonToAllTest {
         String actualText = registerPage.passwordErrorText();
         logger.info("Registration Not successful");
 
+    }
+
+    @Description("Test Case 4: Validate Warning message for Duplicate Account Registraction")
+    @Test
+    public void testDuplicateAccountRegistration(){
+
+        RegisterPage registerPage = navigateToRegisterPage();
+        registerPage.fillForm("vijay","ajay","Vijayadav1245656@gmail.com","123456","123456","123456");
+        registerPage.clickOnAgree();
+        registerPage.clickOnContinue();
+
+        String expectedText = "Warning: E-Mail Address is already registered!";
+        String actualText = registerPage.warningFieldText();
+
+        Assert.assertEquals(actualText,expectedText,"Value do not match");
+
+    }
+
+    @Description("Test Case 5: Validate Warning message popup for Invalid email input")
+    @Test
+    public void testInvalidEmailInput(){
+
+        RegisterPage registerPage = navigateToRegisterPage();
+        registerPage.fillForm("vijay","ajay","Vijayadav1245656","123456","123456","123456");
+        registerPage.clickOnAgree();
+        registerPage.clickOnContinue();
+
+        registerPage.takeScreenshot("emailActualScreenshot");
     }
 
 
