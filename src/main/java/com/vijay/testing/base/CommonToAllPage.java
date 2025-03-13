@@ -1,9 +1,11 @@
 package com.vijay.testing.base;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +97,32 @@ public class CommonToAllPage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // using action class to use keyboard keys
+    public void keyboardActions(){
+
+        Actions action = new Actions(getDriver());
+
+        for(int i = 1;i<=23;i++){
+            action.sendKeys(Keys.TAB).perform();
+        }
+
+        action.sendKeys("Arun").pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+                .sendKeys("Kumar").pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+                .sendKeys("vijayvj67@gmail.com").pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+                .sendKeys("123456").pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+                .sendKeys("123456").pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+                .sendKeys("123456").pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.LEFT).pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.SPACE).pause(Duration.ofSeconds(1))
+                .sendKeys(Keys.ENTER).pause(Duration.ofSeconds(3)).build().perform();
     }
 
 }

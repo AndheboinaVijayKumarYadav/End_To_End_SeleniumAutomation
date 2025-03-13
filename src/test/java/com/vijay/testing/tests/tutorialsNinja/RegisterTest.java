@@ -7,6 +7,8 @@ import com.vijay.testing.pages.LandingPage;
 import com.vijay.testing.pages.RegisterPage;
 import com.vijay.testing.utils.PropertiesReader;
 import io.qameta.allure.Description;
+import net.bytebuddy.build.ToStringPlugin;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -17,6 +19,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
+import static com.vijay.testing.driver.DriverManager.getDriver;
 import static com.vijay.testing.utils.GenerateEmail.generateUniqueEmail;
 
 public class RegisterTest extends CommonToAllTest {
@@ -162,6 +165,20 @@ public class RegisterTest extends CommonToAllTest {
         registerPage.clickOnContinue();
 
         registerPage.takeScreenshot("emailActualScreenshot");
+    }
+
+    @Description("Test Case 6: Verify Registering account with Keyboard keys")
+    @Test
+    public void testRegisteringWithKeyboardKeys(){
+
+        RegisterPage registerPage = navigateToRegisterPage();
+        registerPage.keyboardActions();
+
+
+//        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
+
+        Assert.assertTrue(registerPage.isElementVisible(By.xpath("//div[@id='content']/h1")));
+
     }
 
 
