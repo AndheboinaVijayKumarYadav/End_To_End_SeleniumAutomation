@@ -9,7 +9,9 @@ import com.vijay.testing.utils.PropertiesReader;
 import io.qameta.allure.Description;
 import net.bytebuddy.build.ToStringPlugin;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -179,6 +181,35 @@ public class RegisterTest extends CommonToAllTest {
 
         Assert.assertTrue(registerPage.isElementVisible(By.xpath("//div[@id='content']/h1")));
 
+    }
+
+    @Description("Test Case 7: Verify that Placeholders Field Text in Register Page")
+    @Test
+    public void testVerifyPlaceHoldersText(){
+        RegisterPage registerPage = navigateToRegisterPage();
+
+        String expectedFirstNamePlaceHolderText ="First Name";
+        Assert.assertEquals(getDriver().findElement(By.id("input-firstname")).getAttribute("placeholder"),expectedFirstNamePlaceHolderText);
+
+
+    }
+
+    @Description("Test Case 8: Verify Mandatory Symbol and Color")
+    @Test
+    public void verifyMandatorySymbolAndColor(){
+        RegisterPage registerPage = navigateToRegisterPage();
+
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        //        System.out.println(fnContent);
+        String expectedContent = "\"* \"";
+        String expectedColor = "rgb(255, 0, 0)";
+
+        WebElement firstNameLabel = getDriver().findElement(By.cssSelector("label[for='input-firstname']"));
+        String fnContent = (String) js.executeScript("return window.getComputedStyle(arguments[0],'::before').getPropertyValue('content')",firstNameLabel);
+        String fnColor = (String) js.executeScript("return window.getComputedStyle(arguments[0],'::before').getPropertyValue('color')",firstNameLabel);
+
+        Assert.assertEquals(fnContent,expectedContent,"Expected label content is not matched with Actual one");
+        Assert.assertEquals(fnColor,expectedColor,"Expected color is not matched with Actual one");
     }
 
 
