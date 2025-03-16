@@ -5,8 +5,10 @@ import com.vijay.testing.driver.DriverManager;
 import com.vijay.testing.pages.CreatedPage;
 import com.vijay.testing.pages.LandingPage;
 import com.vijay.testing.pages.RegisterPage;
+import com.vijay.testing.utils.DataBaseHelp;
 import com.vijay.testing.utils.PropertiesReader;
 import io.qameta.allure.Description;
+import net.bytebuddy.asm.Advice;
 import net.bytebuddy.build.ToStringPlugin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -20,7 +22,9 @@ import org.apache.logging.log4j.Logger;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+import java.util.Map;
 
+import static com.vijay.testing.driver.DriverManager.driver;
 import static com.vijay.testing.driver.DriverManager.getDriver;
 import static com.vijay.testing.utils.GenerateEmail.generateUniqueEmail;
 
@@ -211,6 +215,36 @@ public class RegisterTest extends CommonToAllTest {
         Assert.assertEquals(fnContent,expectedContent,"Expected label content is not matched with Actual one");
         Assert.assertEquals(fnColor,expectedColor,"Expected color is not matched with Actual one");
     }
+
+    @Description("Test Case 9: Verify Data Testing of Register Account")
+    @Test
+    public void verifyDataTestingRegisterAccount(){
+
+        RegisterPage registerPage = navigateToRegisterPageLocalHosted();
+
+        String firstNameInputData = "vijju";
+        String lastNameInputData ="kumar";
+        String email = generateUniqueEmail();
+        String telephone = "12345";
+        String password = "123456";
+        String confirmPassword = "123456";
+
+        registerPage.fillForm(firstNameInputData,lastNameInputData,email,telephone,password,confirmPassword);
+        registerPage.clickOnAgree();
+        registerPage.clickOnContinue();
+
+        DataBaseHelp databaseHelp = new DataBaseHelp();
+
+        Map<String,String> customer = databaseHelp.getCustomerData();
+
+        Assert.assertEquals(customer.get("firstname"),firstNameInputData);
+        Assert.assertEquals(customer.get("lastname"),lastNameInputData);
+        Assert.assertEquals(customer.get("email"),email);
+
+
+
+    }
+
 
 
 

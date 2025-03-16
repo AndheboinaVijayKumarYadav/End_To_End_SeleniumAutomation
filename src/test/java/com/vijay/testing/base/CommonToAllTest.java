@@ -42,4 +42,11 @@ public class CommonToAllTest {
         landingPage.goToAccountMenu();
         return landingPage.clickRegisterMenu();
     }
+
+    protected RegisterPage navigateToRegisterPageLocalHosted(){
+        DriverManager.getDriver().get(PropertiesReader.readKey("url_localhost"));
+        LandingPage landingPage = new LandingPage();
+        landingPage.goToAccountMenu();
+        return landingPage.clickRegisterMenu();
+    }
 }
