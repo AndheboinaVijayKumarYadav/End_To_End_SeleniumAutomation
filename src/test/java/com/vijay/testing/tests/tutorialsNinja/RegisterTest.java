@@ -245,6 +245,29 @@ public class RegisterTest extends CommonToAllTest {
 
     }
 
+    @Description("Test Case 10: Verify the Breadcrumb,URL,Title of the Register Page")
+    @Test
+    public void testverifyBreadCrumbURLTitle(){
+
+        RegisterPage registerPage = navigateToRegisterPage();
+
+        // checking that breadcrumb is displaced
+        Assert.assertTrue(registerPage.breadCrumbDisplayed());
+
+        String expectedHeading = "Register Account";
+        String actualHeading = registerPage.headingText();
+        Assert.assertEquals(actualHeading,expectedHeading);
+
+        String expectedURL = "https://tutorialsninja.com/demo/index.php?route=account/register";
+        String actualURL = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualURL,expectedURL);
+
+        String expectedTitle = "Register Account";
+        String actualTitle = getDriver().getTitle();
+        Assert.assertEquals(actualTitle,expectedTitle);
+
+
+    }
 
 
 

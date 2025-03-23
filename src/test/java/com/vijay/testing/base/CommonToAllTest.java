@@ -2,6 +2,7 @@ package com.vijay.testing.base;
 
 import com.vijay.testing.driver.DriverManager;
 import com.vijay.testing.pages.LandingPage;
+import com.vijay.testing.pages.LoginPage;
 import com.vijay.testing.pages.RegisterPage;
 import com.vijay.testing.utils.PropertiesReader;
 import org.apache.logging.log4j.LogManager;
@@ -48,5 +49,12 @@ public class CommonToAllTest {
         LandingPage landingPage = new LandingPage();
         landingPage.goToAccountMenu();
         return landingPage.clickRegisterMenu();
+    }
+
+    protected LoginPage navigateToLoginPage(){
+        DriverManager.getDriver().get(PropertiesReader.readKey("url"));
+        LandingPage landingPage = new LandingPage();
+        landingPage.goToAccountMenu();
+        return landingPage.clickLoginMenu();
     }
 }

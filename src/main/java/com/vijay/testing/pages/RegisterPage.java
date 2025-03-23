@@ -22,6 +22,8 @@ public class RegisterPage extends LandingPage {
     private By continueButton = By.xpath("//input[@value='Continue']");
     private By passwordErrorField = By.xpath("//input[@id='input-confirm']/following-sibling::div");
     private By warningField = By.xpath("//div[@class ='alert alert-danger alert-dismissible']");
+    private By breadCrumbField = By.xpath("//ul[@class='breadcrumb']//a[text()='Register']");
+    private By headingField = By.xpath("//div[@id='content']/h1");
 
     //Page Actions
     // below method returns the CreatedPage all the form details given are valid ones
@@ -76,7 +78,12 @@ public class RegisterPage extends LandingPage {
         clickElement(agreeCheckbox);
     }
 
-    public void takeScreenshot(){
-
+    public Boolean breadCrumbDisplayed(){
+        return find(breadCrumbField).isDisplayed();
     }
+
+    public String headingText(){
+        return find(headingField).getText();
+    }
+
 }

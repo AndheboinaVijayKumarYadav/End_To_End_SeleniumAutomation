@@ -15,7 +15,7 @@ public class LandingPage extends CommonToAllPage {
     // Page Locators
     private By accountMenuItem = By.xpath("//span[contains(text(),'My Account')]");
     private By registerMenuItem = By.linkText("Register");
-
+    private By loginMenuItem = By.linkText("Login");
 
     // Page Actions
     public void goToAccountMenu(){
@@ -29,6 +29,14 @@ public class LandingPage extends CommonToAllPage {
         clickElement(registerMenuItem);
 
         return new RegisterPage();
+    }
+
+    public LoginPage clickLoginMenu(){
+        logger.info("Clicking on 'Login' menu item...");
+        scrollToElement(loginMenuItem);
+        clickElement(loginMenuItem);
+
+        return new LoginPage();
     }
 
 }
