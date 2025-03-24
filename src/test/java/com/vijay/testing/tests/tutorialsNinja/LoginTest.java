@@ -8,9 +8,25 @@ import com.vijay.testing.pages.RegisterPage;
 import com.vijay.testing.utils.PropertiesReader;
 import io.qameta.allure.Description;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoginTest extends CommonToAllTest {
+
+    private static final Logger logger = LogManager.getLogger(LoginTest.class);
+
+    @DataProvider(name="invalidLoginCredentials")
+    public Object[][] getLoginCredentials(){
+
+        return new Object[][] {
+                {"",""},
+                {"kwehkjhfd","12345"},
+                {"@gmail.com","12345"},
+                {"","12345"}
+        };
+    }
 
 
 
@@ -29,6 +45,45 @@ public class LoginTest extends CommonToAllTest {
 
         Assert.assertTrue(myAccountPage.isAccountBreadcrumbDisplayed(), "Account Breadcrumb is not displayed after login");
         Assert.assertTrue(myAccountPage.isLogoutDisplayed(), "Logout option is not displayed after login ");
+
+    }
+
+    @Description("TestCase 2: Verify login with Invalid Credentials")
+    @Test(dataProvider = "invalidLoginCredentials")
+    public void testInvalidLoginCredentials(String email,String password){
+
+        logger.info("Starting Test: login with invalid credentials");
+
+        LoginPage loginPage = navigateToLoginPage();
+        loginPage.verifyLoginWithInvalidCredentials(email,password);
+
+        Assert.assertTrue(loginPage.isWarningMessageDisplayed(),"Warning message is not displayed");
+
+        String expectedText = "Warning: No match for E-Mail Address and/or Password.";
+        String actualText = loginPage.warningText();
+
+        Assert.assertEquals(actualText,expectedText,"Actual warning message is not matched with expected warning message");
+
+
+
+    }
+
+    @Description("TestCase 3: Verify login with Invalid Credentials for more than 4 time")
+    @Test
+    public void testVerifyLoginWithValidEmailInvalidPasswordMoreThan4Times(){
+
+        logger.info("Starting Test: login with invalid credentials");
+
+        String email ="Vijayadav1245656@gmail.com";
+        String password ="";
+
+        LoginPage loginPage = navigateToLoginPage();
+        loginPage.verifyLoginWithInvalidCredentials4times(email,password);
+
+        String expectedWarningMessage = "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.";
+        String actualWarningMessage = loginPage.warningText();
+
+        Assert.assertEquals(actualWarningMessage,expectedWarningMessage,"Actual is not matching with expected");
 
     }
 
