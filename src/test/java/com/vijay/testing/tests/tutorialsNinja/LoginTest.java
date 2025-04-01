@@ -1,10 +1,7 @@
 package com.vijay.testing.tests.tutorialsNinja;
 
 import com.vijay.testing.base.CommonToAllTest;
-import com.vijay.testing.pages.LandingPage;
-import com.vijay.testing.pages.LoginPage;
-import com.vijay.testing.pages.MyAccountPage;
-import com.vijay.testing.pages.RegisterPage;
+import com.vijay.testing.pages.*;
 import com.vijay.testing.utils.PropertiesReader;
 import io.qameta.allure.Description;
 import org.testng.Assert;
@@ -72,7 +69,7 @@ public class LoginTest extends CommonToAllTest {
     @Test
     public void testVerifyLoginWithValidEmailInvalidPasswordMoreThan4Times(){
 
-        logger.info("Starting Test: login with invalid credentials");
+        logger.info("Starting Test: login with invalid credentials for more than 4 times");
 
         String email ="Vijayadav1245656@gmail.com";
         String password ="";
@@ -87,5 +84,42 @@ public class LoginTest extends CommonToAllTest {
 
     }
 
+    @Description("TestCase 4: Verify login after changing the password")
+    @Test
+    public void testVerifyLoginAfterPasswordChange(){
+
+        logger.info("Started TestCase 4: Verify login after changing the password");
+
+        logger.info("Navigate to login page");
+        LoginPage loginPage = navigateToLoginPage();
+
+        String email = PropertiesReader.readKey("email");
+        String oldPassword = PropertiesReader.readKey("password");
+        String newPassword = PropertiesReader.readKey("new-password");
+
+        MyAccountPage myAccountPage = loginPage.verifyLoginWithValidCredentials(email,oldPassword);
+        logger.info("logged in with valid credentials");
+
+        PasswordPage passwordPage = myAccountPage.clickOnPasswordField();
+        myAccountPage = passwordPage.changePassword(newPassword);
+        String actualSuccessText = myAccountPage.successText();
+        String expectedSuccessText = "Success: Your password has been successfully updated.";
+
+        Assert.assertEquals(actualSuccessText,expectedSuccessText,"Actual success text not matching with expected");
+
+        logger.info("Password successfully updated");
+        myAccountPage.clickOnLogout();
+
+
+        logger.info("logging with old password");
+        loginPage = myAccountPage.clickLoginMenu();
+        loginPage.verifyLoginWithInvalidCredentials(email,oldPassword);
+        Assert.assertTrue(loginPage.isWarningMessageDisplayed(),"Warning message when old password entered is not displayed");
+
+        myAccountPage = loginPage.verifyLoginWithValidCredentials(email, newPassword);
+
+        Assert.assertTrue(myAccountPage.isAccountBreadcrumbDisplayed(), "Account Breadcrumb is not displayed after login");
+        Assert.assertTrue(myAccountPage.isLogoutDisplayed(), "Logout option is not displayed after login ");
+    }
 
 }

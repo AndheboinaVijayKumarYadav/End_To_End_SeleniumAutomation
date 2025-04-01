@@ -11,7 +11,7 @@ public class LoginPage extends LandingPage {
     private By passwordField = By.xpath("//input[@Id='input-password']");
     private By loginButton = By.xpath("//input[@type='submit']");
     private By warningMessage = By.xpath("//div[@class='alert alert-danger alert-dismissible']");
-
+    private By forgotPasswordField = By.linkText("Forgotten Password");
 
     // Page Actions
     public void clickLoginButton(){
@@ -20,6 +20,10 @@ public class LoginPage extends LandingPage {
 
     // method login with valid credentials and navigates to My account page
     public MyAccountPage verifyLoginWithValidCredentials(String email,String password){
+
+        // below code will clear if input fields are not empty
+        find(inputEmailField).clear();
+        find(passwordField).clear();
 
         enterText(inputEmailField,email);
         enterText(passwordField,password);
@@ -53,6 +57,10 @@ public class LoginPage extends LandingPage {
             clickLoginButton();
         }
         waitForElement(warningMessage,1);
+    }
+
+    public void clickOnForgotPassword(){
+        clickElement(forgotPasswordField);
     }
 
 }
