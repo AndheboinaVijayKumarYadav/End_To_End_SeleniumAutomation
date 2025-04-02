@@ -16,6 +16,8 @@ public class LandingPage extends CommonToAllPage {
     private By accountMenuItem = By.xpath("//span[contains(text(),'My Account')]");
     private By registerMenuItem = By.linkText("Register");
     private By loginMenuItem = By.linkText("Login");
+    private By searchInputField = By.xpath("//input[@class='form-control input-lg']");
+    private By searchButton = By.xpath("//button[@class='btn btn-default btn-lg']");
 
     // Page Actions
     public void goToAccountMenu(){
@@ -39,4 +41,16 @@ public class LandingPage extends CommonToAllPage {
         return new LoginPage();
     }
 
+    public Boolean isLoginDisplayed(){
+        goToAccountMenu();
+        waitForElement(loginMenuItem,2);
+        return find(loginMenuItem).isDisplayed();
+    }
+
+    public SearchPage searching(String title){
+        enterText(searchInputField,title);
+        clickElement(searchButton);
+
+        return new SearchPage();
+    }
 }

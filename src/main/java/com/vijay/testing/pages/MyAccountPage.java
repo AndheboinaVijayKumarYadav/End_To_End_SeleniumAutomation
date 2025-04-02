@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 public class MyAccountPage extends LandingPage {
-    private static final Logger logger = LogManager.getLogger(LandingPage.class);
+    private static final Logger logger = LogManager.getLogger(MyAccountPage.class);
 
     // page locations
     private By accoundBreadcrumb = By.xpath("//ul[@class='breadcrumb']//a[text()='Account']");
@@ -15,8 +15,9 @@ public class MyAccountPage extends LandingPage {
     private By successTextField = By.xpath("//div[@class='alert alert-success alert-dismissible']");
     private By accountMenuItem = By.xpath("//span[contains(text(),'My Account')]");
     private By loginMenuItem = By.linkText("Login");
-
-
+    private By logoutMenuItem = By.linkText("Logout");
+    private By continueButton = By.xpath("//input[@value='Continue']");
+    private By continueButtonAfterLogout = By.xpath("//a[text()='Continue']");
     // page actions
     public Boolean isAccountBreadcrumbDisplayed(){
         waitForElement(accoundBreadcrumb,2);
@@ -50,5 +51,16 @@ public class MyAccountPage extends LandingPage {
         clickElement(loginMenuItem);
 
         return new LoginPage();
+    }
+
+    public LandingPage clickLogoutMenu(){
+
+        clickElement(accountMenuItem);
+        scrollToElement(logoutField);
+        clickElement(logoutField);
+        waitForElement(continueButtonAfterLogout,2);
+        clickElement(continueButtonAfterLogout);
+
+        return new LandingPage();
     }
 }
