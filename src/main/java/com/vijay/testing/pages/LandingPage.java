@@ -49,6 +49,12 @@ public class LandingPage extends CommonToAllPage {
 
     public SearchPage searching(String title){
         enterText(searchInputField,title);
+        clickOnSearchIcon();
+
+        return new SearchPage();
+    }
+
+    public SearchPage clickOnSearchIcon(){
         clickElement(searchButton);
 
         return new SearchPage();
