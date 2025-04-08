@@ -17,6 +17,7 @@ public class SearchPage extends CommonToAllPage {
     private By subCategoryCheckbox = By.name("sub_category");
     private By addToCartButton = By.xpath("//button[normalize-space()='Add to Cart']");
     private By successMessageAfterAddToCart = By.xpath("//div[@class='alert alert-success alert-dismissible']");
+    private By shoppingCartLink = By.linkText("shopping cart");
 
     // page actions
     public String getTitleOfProduct(){
@@ -48,10 +49,17 @@ public class SearchPage extends CommonToAllPage {
         clickElement(subCategoryCheckbox);
     }
 
+
     // returning other pages
     public String clickOnAddToCart(){
         scrollToElement(addToCartButton);
         clickElement(addToCartButton);
+        waitForElement(successMessageAfterAddToCart,2);
         return find(successMessageAfterAddToCart).getText();
+    }
+
+    public AddToCartPage clickOnShoppingCartLink(){
+        clickElement(shoppingCartLink);
+        return new AddToCartPage();
     }
 }
