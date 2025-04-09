@@ -59,6 +59,7 @@ public class SearchPage extends CommonToAllPage {
     }
 
     public AddToCartPage clickOnShoppingCartLink(){
+        waitForElement(shoppingCartLink,1);
         clickElement(shoppingCartLink);
         return new AddToCartPage();
     }

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 
 import static com.vijay.testing.driver.DriverManager.getDriver;
 
@@ -26,8 +27,15 @@ public class CommonToAllPage {
     public void clickElement(By by){
         getDriver().findElement(by).click();
     }
+
+    // finding the Web element
     public WebElement find(By locator){
         return getDriver().findElement(locator);
+    }
+
+    // finding the WebElements
+    public List<WebElement> findElements(By locator){
+        return getDriver().findElements(locator);
     }
 
     // Method overloading
