@@ -2,6 +2,7 @@ package com.vijay.testing.tests.tutorialsNinja;
 
 import com.vijay.testing.base.CommonToAllTest;
 import com.vijay.testing.driver.DriverManager;
+import com.vijay.testing.model.CartRow;
 import com.vijay.testing.pages.AddToCartPage;
 import com.vijay.testing.pages.LandingPage;
 import com.vijay.testing.pages.SearchPage;
@@ -61,13 +62,18 @@ public class AddToCartTest extends CommonToAllTest {
 
 
          // here we are storing the table row values
-         List<WebElement> tableRow= addToCartPage.getCartTableRows();
-         List<String> actualRowValues = new ArrayList<>();
+         CartRow firstRow = addToCartPage.getAllCartRows().get(0);
 
-         for (int i = 0; i < tableRow.size(); i++) {
-             System.out.println(tableRow.get(i).getAttribute("src"));
+         // assertions to check the row values
+         assertThat(firstRow.getImageSrc()).isNotEmpty().isEqualTo(PropertiesReader.readKey("iMacSrc"));
+         assertThat(firstRow.getProductName()).isNotEmpty().isEqualTo(PropertiesReader.readKey("iMacTitle"));
+         assertThat(firstRow.getModel()).isNotEmpty().isEqualTo(PropertiesReader.readKey("iMacProductModel"));
+         assertThat(firstRow.getQuantity()).isNotEmpty().isEqualTo(PropertiesReader.readKey("iMacQuantity"));
+         assertThat(firstRow.getUnitPrice()).isNotEmpty().isEqualTo(PropertiesReader.readKey("iMacUnitPrice"));
+         assertThat(firstRow.getTotal()).isNotEmpty().isEqualTo(PropertiesReader.readKey("iMacTotalPrice"));
 
-         }
+
+
      }
 
 }
