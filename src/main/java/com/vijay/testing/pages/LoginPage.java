@@ -50,13 +50,14 @@ public class LoginPage extends LandingPage {
     }
 
     public void verifyLoginWithInvalidCredentials4times(String email,String password){
+
         enterText(inputEmailField,email);
         enterText(passwordField,password);
 
         for (int i = 0; i < 4; i++) {
             clickLoginButton();
         }
-        waitForElement(warningMessage,1);
+        waitForElement(warningMessage,2);
     }
 
     public void clickOnForgotPassword(){

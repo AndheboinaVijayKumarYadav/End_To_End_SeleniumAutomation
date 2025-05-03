@@ -49,6 +49,7 @@ public class DriverManager {
                 case "edge":
                     EdgeOptions edgeOptions = new EdgeOptions();
                     edgeOptions.addArguments("--start-maximized");
+                    edgeOptions.addArguments("--headless=new");
                     edgeOptions.addArguments("--guest");
                     driver = new EdgeDriver(edgeOptions);
                     logger.info("Edge browser initialized.");
@@ -56,12 +57,14 @@ public class DriverManager {
                 case "chrome":
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--start-maximized");
+                    chromeOptions.addArguments("--headless=new");
                     driver = new ChromeDriver(chromeOptions);
                     logger.info("Chrome browser initialized.");
                     break;
                 case "firefox":
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.addArguments("--start-maximized");
+                    firefoxOptions.addArguments("--headless=new");
                     driver = new FirefoxDriver(firefoxOptions);
                     logger.info("Firefox browser initialized.");
                     break;

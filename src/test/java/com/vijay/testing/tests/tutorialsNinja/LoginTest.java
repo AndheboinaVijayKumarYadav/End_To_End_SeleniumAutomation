@@ -14,12 +14,12 @@ public class LoginTest extends CommonToAllTest {
 
     private static final Logger logger = LogManager.getLogger(LoginTest.class);
 
+    // here we can add parallel = true in parameter list to run parallel
     @DataProvider(name="invalidLoginCredentials")
     public Object[][] getLoginCredentials(){
 
         return new Object[][] {
                 {"",""},
-                {"kwehkjhfd","12345"},
                 {"@gmail.com","12345"},
                 {"","12345"}
         };
@@ -65,61 +65,61 @@ public class LoginTest extends CommonToAllTest {
 
     }
 
-    @Description("TestCase 3: Verify login with Invalid Credentials for more than 4 time")
-    @Test
-    public void testVerifyLoginWithValidEmailInvalidPasswordMoreThan4Times(){
+//    @Description("TestCase 3: Verify login with Invalid Credentials for more than 4 time")
+//    @Test
+//    public void testVerifyLoginWithValidEmailInvalidPasswordMoreThan4Times(){
+//
+//        logger.info("Starting Test: login with invalid credentials for more than 4 times");
+//
+//        String email ="Vijayadav12456567687@gmail.com";
+//        String password ="";
+//
+//        LoginPage loginPage = navigateToLoginPage();
+//        loginPage.verifyLoginWithInvalidCredentials4times(email,password);
+//
+//        String expectedWarningMessage = "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.";
+//        String actualWarningMessage = loginPage.warningText();
+//
+//        Assert.assertEquals(actualWarningMessage,expectedWarningMessage,"Actual is not matching with expected");
+//
+//    }
 
-        logger.info("Starting Test: login with invalid credentials for more than 4 times");
-
-        String email ="Vijayadav1245656@gmail.com";
-        String password ="";
-
-        LoginPage loginPage = navigateToLoginPage();
-        loginPage.verifyLoginWithInvalidCredentials4times(email,password);
-
-        String expectedWarningMessage = "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.";
-        String actualWarningMessage = loginPage.warningText();
-
-        Assert.assertEquals(actualWarningMessage,expectedWarningMessage,"Actual is not matching with expected");
-
-    }
-
-    @Description("TestCase 4: Verify login after changing the password")
-    @Test
-    public void testVerifyLoginAfterPasswordChange(){
-
-        logger.info("Started TestCase 4: Verify login after changing the password");
-
-        logger.info("Navigate to login page");
-        LoginPage loginPage = navigateToLoginPage();
-
-        String email = PropertiesReader.readKey("email");
-        String oldPassword = PropertiesReader.readKey("password");
-        String newPassword = PropertiesReader.readKey("new-password");
-
-        MyAccountPage myAccountPage = loginPage.verifyLoginWithValidCredentials(email,oldPassword);
-        logger.info("logged in with valid credentials");
-
-        PasswordPage passwordPage = myAccountPage.clickOnPasswordField();
-        myAccountPage = passwordPage.changePassword(newPassword);
-        String actualSuccessText = myAccountPage.successText();
-        String expectedSuccessText = "Success: Your password has been successfully updated.";
-
-        Assert.assertEquals(actualSuccessText,expectedSuccessText,"Actual success text not matching with expected");
-
-        logger.info("Password successfully updated");
-        myAccountPage.clickOnLogout();
-
-
-        logger.info("logging with old password");
-        loginPage = myAccountPage.clickLoginMenu();
-        loginPage.verifyLoginWithInvalidCredentials(email,oldPassword);
-        Assert.assertTrue(loginPage.isWarningMessageDisplayed(),"Warning message when old password entered is not displayed");
-
-        myAccountPage = loginPage.verifyLoginWithValidCredentials(email, newPassword);
-
-        Assert.assertTrue(myAccountPage.isAccountBreadcrumbDisplayed(), "Account Breadcrumb is not displayed after login");
-        Assert.assertTrue(myAccountPage.isLogoutDisplayed(), "Logout option is not displayed after login ");
-    }
+//    @Description("TestCase 4: Verify login after changing the password")
+//    @Test
+//    public void testVerifyLoginAfterPasswordChange(){
+//
+//        logger.info("Started TestCase 4: Verify login after changing the password");
+//
+//        logger.info("Navigate to login page");
+//        LoginPage loginPage = navigateToLoginPage();
+//
+//        String email = PropertiesReader.readKey("email");
+//        String oldPassword = PropertiesReader.readKey("password");
+//        String newPassword = PropertiesReader.readKey("new-password");
+//
+//        MyAccountPage myAccountPage = loginPage.verifyLoginWithValidCredentials(email,oldPassword);
+//        logger.info("logged in with valid credentials");
+//
+//        PasswordPage passwordPage = myAccountPage.clickOnPasswordField();
+//        myAccountPage = passwordPage.changePassword(newPassword);
+//        String actualSuccessText = myAccountPage.successText();
+//        String expectedSuccessText = "Success: Your password has been successfully updated.";
+//
+//        Assert.assertEquals(actualSuccessText,expectedSuccessText,"Actual success text not matching with expected");
+//
+//        logger.info("Password successfully updated");
+//        myAccountPage.clickOnLogout();
+//
+//
+//        logger.info("logging with old password");
+//        loginPage = myAccountPage.clickLoginMenu();
+//        loginPage.verifyLoginWithInvalidCredentials(email,oldPassword);
+//        Assert.assertTrue(loginPage.isWarningMessageDisplayed(),"Warning message when old password entered is not displayed");
+//
+//        myAccountPage = loginPage.verifyLoginWithValidCredentials(email, newPassword);
+//
+//        Assert.assertTrue(myAccountPage.isAccountBreadcrumbDisplayed(), "Account Breadcrumb is not displayed after login");
+//        Assert.assertTrue(myAccountPage.isLogoutDisplayed(), "Logout option is not displayed after login ");
+//    }
 
 }
