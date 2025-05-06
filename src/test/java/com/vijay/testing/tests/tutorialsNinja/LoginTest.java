@@ -84,6 +84,11 @@ public class LoginTest extends CommonToAllTest {
 
     }
 
+    @Test
+    public void testDummy(){
+        Assert.assertTrue(true);
+    }
+
 //    @Description("TestCase 3: Verify login with Invalid Credentials for more than 4 time")
 //    @Test
 //    public void testVerifyLoginWithValidEmailInvalidPasswordMoreThan4Times(){
