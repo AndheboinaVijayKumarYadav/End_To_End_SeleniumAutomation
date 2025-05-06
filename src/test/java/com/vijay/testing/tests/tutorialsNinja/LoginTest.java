@@ -41,6 +41,8 @@ public class LoginTest extends CommonToAllTest {
         LoginPage loginPage = navigateToLoginPage();
         MyAccountPage myAccountPage = loginPage.verifyLoginWithValidCredentials(email,password);
 
+        // tried dry running locally it worked
+
         Assert.assertTrue(myAccountPage.isAccountBreadcrumbDisplayed(), "Account Breadcrumb is not displayed after login");
         Assert.assertTrue(myAccountPage.isLogoutDisplayed(), "Logout option is not displayed after login ");
 
