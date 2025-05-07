@@ -35,6 +35,7 @@ public class LoginTest extends CommonToAllTest {
         builder.add(appenderBuilder);
 
         // Set the root logger level to INFO and add the console appender
+        //added
         builder.add(builder.newRootLogger(org.apache.logging.log4j.Level.INFO)
                 .add(builder.newAppenderRef("stdout")));
 
