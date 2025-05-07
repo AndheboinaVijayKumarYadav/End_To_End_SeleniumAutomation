@@ -5,6 +5,13 @@ import com.vijay.testing.driver.DriverManager;
 import com.vijay.testing.pages.*;
 import com.vijay.testing.utils.PropertiesReader;
 import io.qameta.allure.Description;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
+import org.apache.logging.log4j.core.config.builder.api.LayoutComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -12,6 +19,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LoginTest extends CommonToAllTest {
+
+    static {
+        ConfigurationBuilder<BuiltConfiguration> builder = ConfigurationBuilderFactory.newConfigurationBuilder();
+
+        builder.setStatusLevel(Level.INFO);
+        builder.setConfigurationName("BuilderTest");
+
+        //Define a Console Appender
+        AppenderComponentBuilder appenderBuilder = builder.newAppender("stdout","Console");
+        LayoutComponentBuilder layoutBuilder = builder.newLayout("PatternLayout")
+                .addAttribute("pattern","%d{yyyy-MM-dd HH:mm:ss} %p %m%n");
+        appenderBuilder.add(layoutBuilder);
+
+        builder.add(appenderBuilder);
+
+        // Set the root logger level to INFO and add the console appender
+        builder.add(builder.newRootLogger(org.apache.logging.log4j.Level.INFO)
+                .add(builder.newAppenderRef("stdout")));
+
+        // Build the configuration
+        BuiltConfiguration config = builder.build();
+        Configurator.initialize(config);
+    }
 
     private static final Logger logger = LogManager.getLogger(LoginTest.class);
 
