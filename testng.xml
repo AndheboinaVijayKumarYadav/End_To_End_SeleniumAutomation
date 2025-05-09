@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite">
-    <test verbose="2" preserve-order="true"
-          name="C:/Users/vijay/IdeaProjects/End-to-End Automation of Tutorials Ninja Demo Website">
+<suite name="All Test Suite" parallel="tests" thread-count="2">
+    <test name="Login Test">
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.vijay.testing.tests.tutorialsNinja.LoginTest">
             </class>

@@ -1,5 +1,6 @@
 package com.vijay.testing.driver;
 
+import com.beust.jcommander.Parameter;
 import com.vijay.testing.utils.PropertiesReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,6 +11,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.Parameters;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * DriverManager class manages WebDriver instance lifecycle.
@@ -39,34 +46,53 @@ public class DriverManager {
 
 
     // initialing the browser as per the browser mentioned in the data.properties file
-    public static void init(){
-        String browser = null;
-        browser = PropertiesReader.readKey("browser").toLowerCase();
+    @Parameters("browser")
+    public static void init(String browser) throws MalformedURLException {
+//        this below lines for for reading the property value from data.properties file using PropertiesReader class
+//        String browser = null;
+//        browser = PropertiesReader.readKey("browser").toLowerCase();
+
+        // selenium grid config
+        DesiredCapabilities capabilities = new DesiredCapabilities();
 
         if(driver == null){
-            switch (browser){
+            switch (browser.toLowerCase()){
 
                 case "edge":
                     EdgeOptions edgeOptions = new EdgeOptions();
-                    edgeOptions.addArguments("--start-maximized");
-                    edgeOptions.addArguments("--headless=new");
-                    edgeOptions.addArguments("--guest");
-                    driver = new EdgeDriver(edgeOptions);
-                    logger.info("Edge browser initialized.");
+                    edgeOptions.addArguments("--headless");
+                    capabilities.setBrowserName("edge");
+                    capabilities.setCapability(EdgeOptions.CAPABILITY,edgeOptions);
+//                    edgeOptions.addArguments("--start-maximized");
+//                    edgeOptions.addArguments("--headless=new");
+//                    edgeOptions.addArguments("--guest");
+//                    driver = new EdgeDriver(edgeOptions);
+//                    logger.info("Edge browser initialized.");
                     break;
                 case "chrome":
                     ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("--start-maximized");
-                    chromeOptions.addArguments("--headless=new");
-                    driver = new ChromeDriver(chromeOptions);
-                    logger.info("Chrome browser initialized.");
+                    chromeOptions.addArguments("--headless");
+                    capabilities.setBrowserName("chrome");
+                    capabilities.setCapability(ChromeOptions.CAPABILITY,chromeOptions);
+//                    chromeOptions.addArguments("--start-maximized");
+//                    chromeOptions.addArguments("--headless=new");
+//                    driver = new ChromeDriver(chromeOptions);
+//                    logger.info("Chrome browser initialized.");
                     break;
                 case "firefox":
+                    // selenium grid
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
-                    firefoxOptions.addArguments("--start-maximized");
-                    firefoxOptions.addArguments("--headless=new");
-                    driver = new FirefoxDriver(firefoxOptions);
-                    logger.info("Firefox browser initialized.");
+                    firefoxOptions.addArguments("--headless");
+                    capabilities.setBrowserName("firefox");
+                    capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS,firefoxOptions);
+
+                    String gridUrl = "http://192.168.1.41:4444";
+                    driver = new RemoteWebDriver(new URL(gridUrl), capabilities);
+                    driver.manage().window().maximize();
+//                   firefoxOptions.addArguments("--start-maximized");
+//                   firefoxOptions.addArguments("--headless=new");
+//                   driver = new FirefoxDriver(firefoxOptions);
+//                   logger.info("Firefox browser initialized.");
                     break;
                 default:
                     logger.error("No valid browser found! Check the properties file.");
