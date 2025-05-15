@@ -15,12 +15,12 @@ public class CommonToAllTest {
 
     private static final Logger logger = LogManager.getLogger(CommonToAllTest.class);
 
-    @Parameters("browser")
+    @Parameters({"browser","platform"})
     @BeforeMethod
-    public void setUp(String browser) {
+    public void setUp(String browser, String platform) {
         try {
             logger.info("Initializing WebDriver...");
-            DriverManager.init(browser);
+            DriverManager.init(browser,platform);
             logger.info("WebDriver initialized successfully.");
         } catch (Exception e) {
             logger.error("Error initializing WebDriver: " + e.getMessage(), e);

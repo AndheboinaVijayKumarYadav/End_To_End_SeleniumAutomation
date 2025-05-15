@@ -2,6 +2,7 @@ package com.vijay.testing.driver;
 
 import com.beust.jcommander.Parameter;
 import com.vijay.testing.utils.PropertiesReader;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -46,14 +47,15 @@ public class DriverManager {
 
 
     // initialing the browser as per the browser mentioned in the data.properties file
-    @Parameters("browser")
-    public static void init(String browser) throws MalformedURLException {
+    @Parameters({"browser", "platform"})
+    public static void init(String browser, String platform) throws MalformedURLException {
 //        this below lines for for reading the property value from data.properties file using PropertiesReader class
 //        String browser = null;
 //        browser = PropertiesReader.readKey("browser").toLowerCase();
 
         // selenium grid config
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        String gridUrl;
 
         if(driver == null){
             switch (browser.toLowerCase()){
@@ -63,6 +65,7 @@ public class DriverManager {
                     edgeOptions.addArguments("--headless");
                     capabilities.setBrowserName("edge");
                     capabilities.setCapability(EdgeOptions.CAPABILITY,edgeOptions);
+
 //                    edgeOptions.addArguments("--start-maximized");
 //                    edgeOptions.addArguments("--headless=new");
 //                    edgeOptions.addArguments("--guest");
@@ -85,10 +88,6 @@ public class DriverManager {
                     firefoxOptions.addArguments("--headless");
                     capabilities.setBrowserName("firefox");
                     capabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS,firefoxOptions);
-
-                    String gridUrl = "http://192.168.1.41:4444";
-                    driver = new RemoteWebDriver(new URL(gridUrl), capabilities);
-                    driver.manage().window().maximize();
 //                   firefoxOptions.addArguments("--start-maximized");
 //                   firefoxOptions.addArguments("--headless=new");
 //                   driver = new FirefoxDriver(firefoxOptions);
@@ -97,6 +96,22 @@ public class DriverManager {
                 default:
                     logger.error("No valid browser found! Check the properties file.");
             }
+
+            // platform config
+            if(platform.equalsIgnoreCase("mac")){
+                capabilities.setPlatform(Platform.MAC);
+            }
+            else if(platform.equalsIgnoreCase("windows")){
+                capabilities.setPlatform(Platform.WINDOWS);
+            }
+            else {
+                throw new IllegalArgumentException("Unsupported platform" + platform);
+            }
+
+
+            gridUrl = "http://192.168.1.37:4444";
+            driver = new RemoteWebDriver(new URL(gridUrl), capabilities);
+            driver.manage().window().maximize();
 
         }
 
